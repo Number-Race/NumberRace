@@ -1,0 +1,48 @@
+#!/bin/bash
+
+RED='\033[0;31m'; GREEN='\033[0;32m'; ORANGE='\033[0;33m'
+CYAN='\033[0;36m'; NC='\033[0;0m' # stand for no color
+
+DIR="$HOME/.race"
+URL="https://gist.githubusercontent.com/Crex56/e73f0c4ffb4ab6f9df63b7f7c6cec160/raw/2319e17a61fc536e8f8af82846d2ec98531bc241/NumberRace.b64"
+
+clear
+echo -e " NumberRace Installation "
+echo -e "-------------------------\n"
+
+step() {
+    local name=$1; shift
+    printf "${ORANGE}[*] %s${NC}" "$name"
+    if "$@" &>/dev/null; then
+        printf "\r\033[K${GREEN}[✔] %s${NC}\n" "$name"
+    else
+        printf "\r\033[K${RED}[✘] %s${NC}\n" "$name"
+        exit 1
+    fi
+}
+
+if command -v wget &>/dev/null; then
+    echo -e "${CYAN}[*] Wget (Skipped)${NC}"
+else
+    step "Wget" pkg install wget -y
+fi
+
+mkdir -p "$DIR"
+BIN=$(find "$DIR" -maxdepth 2 -name "*.bin" -type f 2>/dev/null | head -n1)
+
+if [ -n "$BIN" ] && [ -s "$BIN" ]; then
+  echo -e "${CYAN}[*] NumberRace (Skipped)${NC}"
+else
+  step "NumberRace" bash -c "wget -qO- '$URL' | base64 -d | tar xz -C '$DIR'"
+  BIN=$(find "$DIR" -maxdepth 2 -name "*.bin" -type f | head -n1)
+  if [ ! -s $BIN ]; then
+    echo -e "${RED}[✘] NumberRace${NC}"
+  fi
+fi
+
+chmod +x "$BIN"
+printf '#!/bin/sh\nexec "%s" "$@"\n' "$BIN" > "$PREFIX/bin/NumberRace"
+chmod +x "$PREFIX/bin/NumberRace"
+
+echo -e ""
+echo -e "To play - type ${GREEN}Number${ORANGE}Race${NC}"
