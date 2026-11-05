@@ -25,7 +25,6 @@ curl -fsSL https://raw.githubusercontent.com/Crex56/NumberRace/refs/heads/main/i
 <h2 align="left">Status</h2>
 
 - [x] Improve Back instead Enter
-- [ ] More options in Settings (4/5)
 - [ ] Better UI in PvE, Endless (when playing) and etc.. (3.75/6)
 - [ ] More Gamemodes in Play Selection (0/3)
 - [ ] Final Gamemode in Endless Selection (Economy needed)
