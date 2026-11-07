@@ -3,7 +3,7 @@
 </div>
 <h2 align = "left"></h2>
 
-`Number Race` is a **terminal** game project to play inside Termux
+`Number Race` is a **terminal** game to play inside Termux
 <h2 align="left">Introduction</h2>
 
 - The game was made fully on **Python**. Other like **C#**, **Lua** or either **Ruby** are might be soon!
